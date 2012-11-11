@@ -1,0 +1,21 @@
+WORK IN PROGRESS
+
+Easy way to upload content to wiktionary page. 
+
+Install
+======
+1. Requires python & pip .
+1.a Need wikmedia installation path and api url.
+
+2.$ sudo pip install -r requirments.txt
+
+3.$ cp instance/settings-sample.py instance/settings.py
+
+4.Modify settings.py 
+
+MEDIAWIKI = {
+    'host': 'http://localhost/mediawiki-1.20.0',
+    # Mediawiki host URI
+    'api': '/api.php'
+    # Mediwiki api URI
+}

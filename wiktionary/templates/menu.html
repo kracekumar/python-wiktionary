@@ -1,0 +1,15 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <ul class="nav">
+            <a href="{{ url_for('index') }}">Home</a>
+            {% if session.username %}
+                <a href="#">{{ session.username }}</a>
+                <a href="{{ url_for('new') }}">new</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('upload') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </ul>
+    </div>
+</div>
