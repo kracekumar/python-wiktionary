@@ -1,6 +1,6 @@
 #! -*- coding: utf-8 -*-
 
-from flask.ext.wtf import Form, TextField, PasswordField, FileField, validators
+from flask.ext.wtf import Form, TextField, PasswordField, FileField, SelectField, validators, IntegerField
 from flask.ext.wtf import Required
 
 
@@ -13,6 +13,13 @@ class LoginForm(Form):
 class WiktionaryNewForm(Form):
     """ Form to submit to wikionary for creating new article """
     title = TextField("title", description="Title of the article", validators=[Required("Title is mandatory")])
+    template = SelectField(u'Template', description="Select to display no of fields dynamically", coerce=int)
+
+
+class WiktionaryNewTemplateForm(Form):
+    """ Form to submit to wikionary for creating new article """
+    name = TextField("title", description="Title of the article", validators=[Required("Title is mandatory")])
+    length = IntegerField(u'Total Field', validators=[Required()])
 
 
 class WiktionaryInlineSectionForm(Form):

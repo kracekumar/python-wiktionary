@@ -40,4 +40,5 @@ def generate_inline_form():
     setattr(Temp, u"title_" + unicode(suffix), TextField("Title", validators=[Required()]))
     setattr(Temp, u"content_" + unicode(suffix), TextAreaField("Content", validators=[Required()]))
     Count.count += 1
+    print Count.count
     return Temp, suffix

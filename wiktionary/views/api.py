@@ -1,7 +1,7 @@
 #! -*- coding: utf-8 -*-
 
 from functools import wraps
-from flask import g, redirect, request, url_for, session
+from flask import flash, redirect, request, url_for, session
 from wiktionary import app
 from mwapi import MWApi
 
@@ -50,6 +50,5 @@ def post(data):
         mw = login(session['username'], session['password'])
         mw.post({u'action': data['action'], u'token': mw.tokens['edittoken'], u'section': u'new', u'text': data['text'],
         u'title': data['title']})
-        return mw
     except:
-        print "failed"
+        flash("Failed to upload %s" % data['title'], "error")

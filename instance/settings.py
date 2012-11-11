@@ -13,3 +13,5 @@ MEDIAWIKI = {
     'host': 'http://localhost/mediawiki-1.20.0',
     'api': '/api.php'
     }
+#: Database backend
+SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'

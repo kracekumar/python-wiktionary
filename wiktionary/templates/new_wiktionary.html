@@ -20,15 +20,7 @@
 {{ ajaxform(formid, request, ajax) }}
   <script type="text/javascript">
     $(function() {
-      $(".close").on('click', function (event) {
-        var suffix = $(this).id();
-      });
-      $("#new-wiktionary-form").ajaxForm({
-        target: '#new-wiktionary-form',
-        replaceTarget: true});
-      // Handle new add new section
-      $("#add-section").on('click', function (event) {
-        event.preventDefault();
+      var add_section = (function () {
         $.ajax({
           type: 'GET',
           url: "{{ url_for('return_inline_form') }}",
@@ -40,6 +32,23 @@
           }
         });
       });
+      $("#add-section").on('click', function (event) {
+        event.preventDefault();
+        add_section();
+      });
+      $("#template").click( function () {
+        var val = $("#template option:selected").val();
+        for (var i =0; i < val; ++i) {
+          setTimeout(add_section, 1000);
+        }
+      });
+      $(".close").on('click', function (event) {
+        var suffix = $(this).id();
+      });
+      $("#new-wiktionary-form").ajaxForm({
+        target: '#new-wiktionary-form',
+        replaceTarget: true});
+      // Handle new add new section
     });
   </script>
 {% endblock %}

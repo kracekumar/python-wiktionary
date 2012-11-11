@@ -29,4 +29,5 @@ def init():
 
 
 import wiktionary.views
+import wiktionary.models
 import wiktionary.forms

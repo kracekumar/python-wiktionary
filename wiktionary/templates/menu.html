@@ -3,10 +3,10 @@
         <ul class="nav">
             <a href="{{ url_for('index') }}">Home</a>
             {% if session.username %}
-                <a href="#">{{ session.username }}</a>
-                <a href="{{ url_for('new') }}">new</a>
+                <a href="{{ url_for('upload') }}">Upload</a>
+                <a href="{{ url_for('new') }}">New Page</a>
+                <a href="{{ url_for('new_template') }}">New Template</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
-                <a href="{{ url_for('upload') }}">Logout</a>
             {% else %}
                 <a href="{{ url_for('login') }}">Login</a>
             {% endif %}
