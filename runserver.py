@@ -10,7 +10,11 @@ try:
 except IOError:
     print >> sys.stderr, "Did not find settings.py file in instance directory"
 
+init()
+db.create_all()
 if app.config['ENVIRONMENT'] == u'dev':
-    init()
-    db.create_all()
-    app.run('0.0.0.0', app.config['PORT_NO'], debug=True)
+    app.run(app.config['IP'], app.config['PORT_NO'], debug=True)
+elif app.config['ENVIRONMENT'] == u'gevent':
+    from gevent import wsgi
+    server = wsgi.WSGIServer((app.config['IP'], app.config['PORT_NO']), app)
+    server.serve_forever()

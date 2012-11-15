@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
-{% from "forms.html" import renderform, ajaxform, richtext_editor %}
+{% from "baseframe/forms.html" import renderform, ajaxform, richtext_editor %}
+
 
 {% block content %}
   {%- if message %}
     <p>{{ message }}</p>
   {%- endif %}
   <button id="add-section" type="button" class="btn btn-primary">Add New section</button>
-  <div id="form-container">
+  <div id="form-container" >
     {{ renderform(form=form, formid='new-wiktionary-form',  submit=submit, cancel_url=cancel_url, multipart=False) }}
   </div>
 {% endblock %}
@@ -17,38 +18,95 @@
       {{ richtext_editor(field) }}
     {%- endif %}
   {%- endfor %}
-{{ ajaxform(formid, request, ajax) }}
   <script type="text/javascript">
     $(function() {
+      // Make input and textarea to expand entire div area
+      $('input, textarea').addClass("input-block-level");
+      // Handler for close icon which is inserted in client side
+      $(document).on("click", "a.close", function (event) {
+        event.preventDefault();
+        var clicked = this;
+        //Remove the inserted fields
+        $(clicked).closest('.new-section').last().remove();
+      });
+      // code for input, textarea
+      var to_insert = "<br/><div class='new-section'><div class='control-group' id='field-section_title'>\
+            <label class='control-label' for='section_title'>Section Title <span class='help-required' title='Required'>*\
+            </span></label>\
+            <div class='controls'>\
+              <input  id='section_title' class='input-block-level' ng-model='article.sectionTitle' name='section_title' type='text' value=''>\
+              <p class='help-block'>Section Title</p>\
+            </div>\
+          </div>\
+          <div class='control-group' id='field-section_content'>\
+            <label class='control-label' for='section_content'>Section Content \
+            <span class='help-required' title='Required'>*</span></label>\
+          <div class='controls'>\
+            <textarea class='input-block-level' id='section_content' ng-model='article.sectionContent' \
+            name='section_content'></textarea>\
+          <p class='help-block'>Section Content</p>\
+          </div>\
+          <a class='close' href='#'>&times;</a>\
+          </div></div>"
       var add_section = (function () {
-        $.ajax({
-          type: 'GET',
-          url: "{{ url_for('return_inline_form') }}",
-          dataType: "json",
-          success: function(msg) {
-            //$("{{ form.name }}")
-            $(".control-group").last().append(msg['code']);
-            $( 'input,textarea' ).ime();
-          }
-        });
+        //Insert the html for textarea and input field
+        $("#field-section_content").append(to_insert);
       });
       $("#add-section").on('click', function (event) {
         event.preventDefault();
         add_section();
+        toastr.success("Added 1 section");
       });
-      $("#template").click( function () {
+      $("#field-template").click( function () {
         var val = $("#template option:selected").val();
         for (var i =0; i < val; ++i) {
-          setTimeout(add_section, 1000);
+          add_section();
+        }
+        toastr.success("Added "+ val +" sections");
+      });
+      //client side form validation
+      $("form").on('submit', function (event) {
+        event.preventDefault();
+        //check for input field
+        var errors = false;
+        $(".field-section_title", this).each(function() {
+            var input = $(this);
+            if (!$(input).hasClass('hidden') && $(input).attr('value').length < 5) {
+              errors = true;
+              console.log($(this));
+              console.log("text");
+              $(input).append("<p class='help-error'><span>Title is mandatory</span></p>");
+              $(this).closest('.control-group').addClass('error');
+            } else {
+              $(this).closest('.control-group').removeClass('error');
+            }
+        });
+        //check for text-area
+          $(".field-section_content", this).each(function() {
+            var input = $(this).attr('value');
+            if (input.length < 5) {
+              errors = true;
+              console.log("textarea");
+              $(input).append("<p class='help-error'><span>Title is mandatory</span></p>");
+              $(this).closest('.control-group').addClass('error');
+            } else {
+              $(this).closest('.control-group').removeClass('error');
+            }
+        });
+        $("#field-template").removeClass('error');
+        if (!errors) {
+          $(this).ajaxSubmit({'success': function (data) {
+            if (data['msg_type'] === 'failure') {
+              toastr.failure(data['msg']);
+            } else {
+              console.log("success");
+              toastr.success(data['msg']);
+              setTimeout(window.location.replace(data['url']), 5000);
+            }
+          }
+        });
         }
       });
-      $(".close").on('click', function (event) {
-        var suffix = $(this).id();
-      });
-      $("#new-wiktionary-form").ajaxForm({
-        target: '#new-wiktionary-form',
-        replaceTarget: true});
-      // Handle new add new section
     });
   </script>
 {% endblock %}

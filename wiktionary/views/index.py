@@ -1,10 +1,15 @@
 #! -*- coding: utf-8 -
 
-from flask import (render_template, url_for, escape, flash, request, session, g, redirect,
-    jsonify, json)
+from flask import (render_template, url_for, escape, flash, request, session, redirect,
+     json, jsonify, send_file)
+#import gevent
+#from gevent import monkey
+#monkey.patch_all()
+
+from baseframe.forms import render_form
 
 from wiktionary import app
-from .helpers import render_form, generate_inline_form, render_redirect
+from .helpers import render_redirect
 from .api import login as l
 from .api import LoginFailedError, get_current_url, post
 from wiktionary.forms import LoginForm, WiktionaryNewForm, UploadForm, WiktionaryNewTemplateForm
@@ -14,6 +19,8 @@ from wiktionary.models import Template, db
 LINE_SPACE = """
 """
 
+TITLE_SEPARATOR = u"===="
+
 
 def parse_json(stream):
     return json.loads(stream)
@@ -21,15 +28,17 @@ def parse_json(stream):
 
 def check_login():
     try:
-        if session['user']:
-            return redirect(url_for('index'))
+        if session['username']:
+            return None
+        else:
+            return redirect(url_for('login', next=get_current_url()), code=302)
     except KeyError:
-        return redirect(url_for('login', next=get_current_url))
+        return redirect(url_for('login', next=get_current_url()), code=302)
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', host=app.config['MEDIAWIKI']['host'])
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -49,7 +58,7 @@ def login():
         except Exception, e:
             pass
         if next:
-            return redirect(url_for(next))
+            return redirect(next)
         return render_template('index.html')
     return render_form(form=form, title='Login', submit=u'Login',
         cancel_url=url_for('index'), ajax=False)
@@ -57,8 +66,8 @@ def login():
 
 @app.route('/logout')
 def logout():
-    g.user = None
-    session.pop('user', None)
+    session.pop('username', None)
+    session.pop('password', None)
     flash(u"Successfully logged out", "success")
     return redirect(url_for('index'))
 
@@ -87,50 +96,44 @@ def new():
     else:
         form.template.choices = [("General - 4", 4)]
     if form.validate_on_submit():
-        s = set([])
-        for key in request.form:
-            # FIXME: document
-            val = request.form[key]
-            if key == u'title':
-                title = unicode(val)
-            else:
-                if u"_" in unicode(key):
-                    k = key.split('_')
-                    try:
-                        s.add(int(k[-1]))
-                    except ValueError:
-                        pass
-        result = sorted(s)
-        text = title + LINE_SPACE
-        for x in xrange(result[0], result[-1] + 1):
-            print request.form
-            try:
-                text  += "===" + request.form[u'title_' + unicode(x)] + "===" + LINE_SPACE + request.form[u'content_' + unicode(x)] + LINE_SPACE
-            except KeyError:
-                pass
+        title = request.form.get('title')
+        section_titles = request.form.getlist('section_title')
+        section_contents = request.form.getlist('section_content')
+        text = u""
+        for s_title, desc in zip(section_titles, section_contents):
+            text += TITLE_SEPARATOR + s_title + TITLE_SEPARATOR + LINE_SPACE + desc + LINE_SPACE
         # Post to mediawiki
-        post({u'action': u'edit', u'title': title, u'action': 'edit', u'section': u'new', u'text': text})
-        flash("Added page %s " % (title), "success")
-        return render_redirect(url_for('index'))
+        try:
+            post({u'action': u'edit', u'title': title, u'action': 'edit', u'section': u'new', u'text': text})
+        except:
+            return jsonify({'msg_type': u'failure', 'msg': u'Something Went wrong'})
+        return jsonify({'url': url_for('index'),
+            'msg': u'Added page %s ' % (title),
+            'msg_type': u'success'})
     return render_template('new_wiktionary.html', form=form, title='Create',
-        submit=u'Create', cancel_url=url_for('index'), ajax=False)
-
-
-@app.route('/get_inline_form')
-def return_inline_form():
-    check_login()
-    form, suffix = generate_inline_form()
-    return jsonify({'code': render_template('section_title_content.html', form=form(), suffix=suffix)})
+        submit=u'Create', cancel_url=url_for('index'), ajax=True)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    check_login()
+    r = check_login()
+    if r is not None:
+        return r
     form = UploadForm()
     if form.validate_on_submit():
         content = parse_json(unicode(form.json.data.stream.getvalue(), encoding="utf-8"))
-        jobs = [post(item) for item in content['items']]
-        flash("All json objects posted", "success")
-        return render_redirect(url_for('index'))
-    return render_form(form=form, title='Upload Bulk wiktionary json file', submit=u'Login',
+        try:
+            jobs = [(post(item), item) for item in content['items']]
+            #jobs = [gevent.spawn(post, item) for item in content['items']]
+            #gevent.joinall(jobs)
+            #flash("All json objects posted - gevent", "success")
+        except:
+            flash("Something Wentwrong")
+        return render_template('upload.html', jobs=jobs)
+    return render_form(form=form, title='Upload Bulk wiktionary json file', submit=u'Upload',
         cancel_url=url_for('index'), ajax=False)
+
+
+@app.route('/download', methods=['GET'])
+def download():
+    return send_file('../../wiktionary.json', as_attachment=True, attachment_filename='wiktionary_upload_sample.json')

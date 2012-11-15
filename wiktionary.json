@@ -1,0 +1,16 @@
+{"readme":
+    [
+        "This comment",
+        "Don't change the key `items`",
+        "action: edit ONLY ",
+        "section: new ONLY ",
+        "title: Page Title",
+        "text: Page content entire wiktionary word content(wikimedia format)",
+        "https://www.mediawiki.org/wiki/API:Edit",
+        "Don't add empty line"
+    ],
+"items":
+    [
+        {"action": "edit", "section": "new", "title": "அம்மா", "text": "அம்மா"}
+    ]
+}

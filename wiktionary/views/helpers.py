@@ -2,13 +2,6 @@
 
 from flask import render_template, request, redirect, Markup, json
 import flask.ext.wtf as wtf
-from flask.ext.wtf import TextAreaField, TextField, Required
-from wiktionary.forms import WiktionaryInlineSectionForm
-
-
-class Count(object):
-    start = 0
-    count = start
 
 
 def render_redirect(url, code=302):
@@ -31,14 +24,3 @@ def render_form(form, title, message='', formid='form', submit=u"Submit", cancel
         return render_template('autoform.html', form=form, title=title,
             message=message, formid=formid, submit=submit,
             cancel_url=cancel_url, ajax=ajax, multipart=multipart)
-
-
-def generate_inline_form():
-    class Temp(WiktionaryInlineSectionForm):
-        pass
-    suffix = Count.count
-    setattr(Temp, u"title_" + unicode(suffix), TextField("Title", validators=[Required()]))
-    setattr(Temp, u"content_" + unicode(suffix), TextAreaField("Content", validators=[Required()]))
-    Count.count += 1
-    print Count.count
-    return Temp, suffix

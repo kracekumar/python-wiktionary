@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="row">
-        Web App where users can create dynamic form & template content to wiktionary.
+         This Web Application provides simple form to upload wiktionary data for <a href="{{ host }}"> {{ host }} </a>
+         <br/>
+         <ul>
+            <li> <a href="{{ url_for('new') }}"> Add New Article or Word </li>
+            <li> <a href="{{ url_for('download') }}"> Download a Sample JSON file for Bulk upload </li>
+            <li> <a href="{{ url_for('upload') }}"> Bulk Upload - Modify the sample JSON file to upload</li>
+
+         </ul>
     </div>
 {% endblock %}

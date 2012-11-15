@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row">
+    {%- if message %}
+        <p>{{ message }}</p>
+    {%- endif %}
+
+        <table class="table">
+            <tr>
+                <th> # </th>
+                <th> Title </th>
+                <th> Text </th>
+                <th> Status </th>
+            </tr>
+            <tbody>
+            {% for  job in jobs %}
+                <tr class="success{%- if job[0] %}{% else %}error{% endif %}">
+                    <td>{{loop.index}}</td>
+                    <td>{{ job[1].title }}</td>
+                    <td>{{ job[1].text }}</td>
+                    <td>{%- if job[0] == True %}
+                            <span class='label label-success'>Success</span>
+                        {% else %}
+                            <span class='label label-important'>Failure</span>
+                        {% endif -%}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

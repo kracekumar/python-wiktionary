@@ -1,6 +1,6 @@
 WORK IN PROGRESS
 
-Easy way to upload content to wiktionary page. 
+Easy way to upload content to wiktionary page.
 
 Install
 ======
@@ -11,7 +11,7 @@ Install
 
 3.$ cp instance/settings-sample.py instance/settings.py
 
-4.Modify settings.py 
+4.Modify settings.py
 
 MEDIAWIKI = {
     'host': 'http://localhost/mediawiki-1.20.0',
@@ -19,3 +19,17 @@ MEDIAWIKI = {
     'api': '/api.php'
     # Mediwiki api URI
 }
+
+5. Mention IP address in `settings.py`
+
+6. Install Baseframe
+git clone https://github.com/hasgeek/baseframe.git
+cd baseframe/baseframe
+make tinymce
+cd ..
+python setup.py develop
+
+7. ./runserver.py
+
+Deployment
+====
