@@ -2,5 +2,4 @@ flask
 python-mwapi
 flask-assets
 https://github.com/hasgeek/coaster/zipball/master
-git://github.com/kracekumar/baseframe.git
 flask-sqlalchemy
