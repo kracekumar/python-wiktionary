@@ -23,3 +23,6 @@ baseframe
 dev.db
 *.db
 .idea
+run/*
+logs/*
+
