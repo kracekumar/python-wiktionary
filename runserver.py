@@ -18,9 +18,12 @@ if app.config['ENVIRONMENT'] == u'dev':
     app.run(app.config['IP'], app.config['PORT_NO'], debug=True)
 elif app.config['ENVIRONMENT'] == u'gevent':
     from gevent import wsgi
-    port = int(os.getenv("PORT"))
-    if port:
-        app.config['PORT_NO'] = port
+    try:
+        port = int(os.getenv("PORT"))
+        if port:
+            app.config['PORT_NO'] = port
+    except:
+        pass
     server = wsgi.WSGIServer((app.config['IP'], app.config['PORT_NO']), app)
     server.serve_forever()
 else:
