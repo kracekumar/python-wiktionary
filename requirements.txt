@@ -4,4 +4,4 @@ flask-assets
 https://github.com/hasgeek/coaster/zipball/master
 https://github.com/hasgeek/baseframe/archive/master.zip
 flask-sqlalchemy
-psqlite2
+sqlite3
