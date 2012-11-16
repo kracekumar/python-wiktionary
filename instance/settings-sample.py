@@ -17,3 +17,5 @@ MEDIAWIKI = {
     }
 #: Database backend
 SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+#: Full path of project directory + wiktionary.json file
+SAMPLE_FILE_PATH = ""
