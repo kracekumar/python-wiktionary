@@ -1,1 +1,1 @@
-web: gunicorn wiktionary:app -b 0.0.0.0:$PORT -w 2
+web: gunicorn wiktionary:app -b 0.0.0.0:$PORT -w 2 -k gevent
