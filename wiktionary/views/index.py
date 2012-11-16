@@ -5,7 +5,8 @@ from flask import (render_template, url_for, escape, flash, request, session, re
 #import gevent
 #from gevent import monkey
 #monkey.patch_all()
-
+#
+import sys
 from baseframe.forms import render_form
 
 from wiktionary import app
@@ -139,6 +140,6 @@ def download():
     # there is a issue with this file in server so placing an try/catch block
     try:
         return send_file('../../wiktionary.json', as_attachment=True, attachment_filename='wiktionary_upload_sample.json')
-    except Exception as e:
-        print("exception")
-        print(e.msg)
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
+        raise
