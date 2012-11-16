@@ -7,12 +7,12 @@ SECRET_KEY = 'make this something random'
 #: PORT_NO
 PORT_NO = 3333
 #: ENVIRONMENT should be dev
-ENVIRONMENT = u'dev'
+ENVIRONMENT = u'prod'
 #: IP to run
 IP = '0.0.0.0'
 #: Mediawiki settings
 MEDIAWIKI = {
-    'host': 'http://localhost/mediawiki-1.20.0',
+    'host': 'http://78.46.204.24',
     'api': '/api.php'
     }
 #: Database backend

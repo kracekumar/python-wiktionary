@@ -18,3 +18,5 @@ elif app.config['ENVIRONMENT'] == u'gevent':
     from gevent import wsgi
     server = wsgi.WSGIServer((app.config['IP'], app.config['PORT_NO']), app)
     server.serve_forever()
+else:
+    pass

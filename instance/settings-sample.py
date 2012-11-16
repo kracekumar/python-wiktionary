@@ -12,7 +12,7 @@ ENVIRONMENT = u'dev'
 IP = '0.0.0.0'
 #: Mediawiki settings
 MEDIAWIKI = {
-    'host': 'http://localhost/mediawiki-1.20.0',
+    'host': 'http://78.46.204.24/',
     'api': '/api.php'
     }
 #: Database backend
