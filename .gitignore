@@ -26,3 +26,4 @@ dev.db
 run/*
 logs/*
 wsgid.json
+the.db
