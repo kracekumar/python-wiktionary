@@ -1,0 +1,326 @@
+@import "compass/typography/text/replacement"
+@import "compass/layout/sticky-footer"
+
+html
+  overflow-y: scroll
+
+h1
+  color: $color-h1
+  a, a:visited
+    color: $color-h1
+  a:hover, a:active
+    color: darken($color-h1, 15%)
+
+h2
+  color: $color-h2
+  a, a:visited
+    color: $color-h2
+  a:hover, a:active
+    color: darken($color-h2, 15%)
+
+h3
+  color: $color-h3
+  a, a:visited
+    color: $color-h3
+  a:hover, a:active
+    color: darken($color-h3, 15%)
+
+header
+  //background-color: whiteSmoke
+  margin-bottom: $body-line-height
+
+#page-header
+  border-bottom: 1px solid $color-outline
+  h1
+    margin-top: $body-line-height / 2
+
+// Start sticky footer
+html, body
+  height: 100%
+
+#root
+  clear: both
+  min-height: 100%
+  height: auto !important
+  height: 100%
+  margin-bottom: -$footer-height
+
+#root #root_footer
+  height: $footer-height
+
+footer
+  clear: both
+  position: relative
+  min-height: $footer-height - 10px
+// End sticky footer
+
+footer .footer-inner
+  margin-top: 10px
+  min-height: $footer-height - 10px
+  background: whiteSmoke image-url('shadow.png') no-repeat top center
+
+footer .container
+  text-align: center
+  font-size: 90%
+  padding-top: 1.5em
+  padding-bottom: 1em
+  p
+    font-size: inherit
+
+#logo, #logo-presents
+  @include replace-text-with-dimensions('logo.png')
+  a
+    display: block
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+    border: 0
+    text-decoration: none
+
+#logo-presents
+  @include replace-text-with-dimensions('hasgeek-presents.png')
+
+.loading
+  +inline-block
+  background: image-url('ajax-loader.gif') center no-repeat
+  width: 16px
+  height: 16px
+  &.hidden
+    display: none
+
+.section
+  margin-bottom: $body-line-height
+
+.usertools
+  list-style: none
+  position: absolute
+  right: 0
+  bottom: 0
+  margin: 0
+  font-size: 90%
+  li
+    float: left
+    padding: 0.25em 0.5em
+    margin: 0
+    border-right: 1px solid $color-outline-thin
+    a
+      text-decoration: none
+      border-bottom: 0
+    &.profile
+      font-weight: bold
+    &:last-child
+      border-right: 0
+      padding-right: 0
+
+.video, .video169, .video43
+  position: relative
+  height: 0
+  overflow: hidden
+
+  &.youtube
+    padding-top: 30px
+
+  &.slideshare
+    padding-top: 36px
+
+  iframe, object, embed
+    position: absolute
+    border: 0
+    margin: 0
+    padding: 0
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+
+.video, .video169
+  padding-bottom: 56.25% // 16/9 ratio
+
+.video43
+  padding-bottom: 75%
+
+.link-list-line
+  list-style: none
+  margin-left: -0.5em
+  margin-right: -0.5em
+  @include clearfix
+  li
+    float: left
+    padding: 0 0.5em
+    white-space: nowrap
+
+// Rich text editor
+table.mceLayout
+  @include border-radius(4px)
+  @include transition(border linear .2s, box-shadow linear .2s)
+  border: 1px solid #ccc !important
+  +box-shadow(0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(255, 255, 255, 0.5) inset)
+  tr.mceFirst td.mceToolbar.mceFirst
+    @include border-top-left-radius(4px)
+    @include border-top-right-radius(4px)
+    border-top: none
+  tr.mceLast td.mceLast
+    @include border-bottom-left-radius(4px)
+    @include border-bottom-right-radius(4px)
+    border-bottom: none !important
+  &.focus
+    border: 1px solid rgba(82,168,236,.8) !important
+    @include box-shadow(0 0 8px rgba(82,168,236,.6))
+    @include transition(border linear .2s, box-shadow linear .2s)
+
+// Forms
+.listwidget
+  ul, ol
+    list-style: none
+    margin-left: 0
+    margin-bottom: 0
+
+    input
+      vertical-align: baseline
+
+    label
+      display: inline
+      vertical-align: baseline
+
+.form-horizontal .listwidget .control-label
+  padding-top: 0
+
+.controls.inline
+  input[type="checkbox"]
+    vertical-align: baseline
+  label
+    display: inline
+    vertical-align: baseline
+
+.controls.inline, .listwidget ul
+  label
+    margin-left: 0.25em
+
+.help-error
+  margin-top: 11px
+  span
+    border: 1px solid #b94a48
+    color: white !important
+    background: #b94a48
+    padding: 4px
+    +border-radius(3px)
+    position: relative
+    margin-top: 3px
+
+    &:before
+      display: block
+      content: ""
+      position: absolute
+      border: 6px solid transparent
+      border-bottom: 6px solid #b94a48
+      top: -13px
+      left: 5px
+
+.help-required
+  color: #b94a48
+  font-weight: bold
+  font-family: monospace
+
+.form-horizontal .help-required
+  margin-right: -11px
+
+.control-label
+  font-weight: bold
+
+input.datetime-date, input.datetime-time
+  width: 6em
+
+textarea
+  width: 90%
+  height: 10em
+
+input[name="title"], .field-title
+  font-weight: bold
+  font-size: 18px
+
+input[type="url"], input[name="name"]
+  font-family: Menlo, Monaco, "Courier New", monospace
+
+.field-title
+  margin-bottom: 0
+  width: 90%
+
+.help-block
+  font-size: 90%
+  color: #777
+
+// Single-button forms
+form.form-button
+  margin: 0
+  display: inline-block
+
+ul.grid
+  list-style: none
+  margin-left: 0
+
+  &.container-fluid
+    padding: 0
+    // margin-left: -2px
+
+  & > .row-fluid > [class*="span"]:first-child
+    padding-left: 13px
+
+  & > .row-fluid > [class*="span"]
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    +box-sizing(border-box)
+
+  & > li
+    border-bottom: 1px solid #d9d9d9
+    padding-top: $body-line-height / 2
+    padding-bottom: $body-line-height / 2 - 1px
+    position: relative
+    margin: 0
+
+    &.item-hover:hover
+      border-bottom: 1px solid #b7b7b7
+      background: #f5f5f5
+
+  & > li.header
+    padding-top: $body-line-height / 2 - 1px
+    // border-top: 1px solid #b7b7b7
+    border-top: 0
+    border-bottom: 1px solid #b7b7b7
+    font-weight: bold
+
+.nav.nav-grid
+  margin-bottom: 0
+
+.unstyled
+  margin: 0
+  padding: 0
+  border: 0
+
+.print-only
+  display: none
+
+/* Cookies */
+.cookies-required-alert, .no-cookies .cookies-required
+  display: none
+
+.cookies-required, .no-cookies .cookies-required-alert
+  display: block
+
+.no-cookies .cookies-required-alert
+  margin-top: 1em
+
+.rwd-line
+  +inline-block
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2)
+  #logo
+    background-image: image-url('logo@2x.png')
+    -webkit-background-size: image-width('logo.png') image-height('logo.png')
+
+@media only screen and (max-width: 767px)
+  .rwd-line
+    display: block
+  ul.grid > .row-fluid > [class*="span"]:first-child
+    padding-left: 0
