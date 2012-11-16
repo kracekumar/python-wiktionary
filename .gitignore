@@ -26,3 +26,5 @@ run/*
 logs/*
 wsgid.json
 the.db
+baseframe
+
