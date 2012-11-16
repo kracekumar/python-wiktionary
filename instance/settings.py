@@ -17,3 +17,5 @@ MEDIAWIKI = {
     }
 #: Database backend
 SQLALCHEMY_DATABASE_URI = 'postgres://aadukalam:postgres-aadukalam@78.46.204.24:5432/wikimedia'
+#: Full path of project directory + wiktionary.json file
+SAMPLE_FILE_PATH = "/home/kracekumar/Dropbox/codes/python/python/flask/sandbox/wikimedia/python-wiktionary/wiktionary.json"

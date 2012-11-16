@@ -139,7 +139,6 @@ def upload():
 def download():
     # there is a issue with this file in server so placing an try/catch block
     try:
-        return send_file('../../wiktionary.json', as_attachment=True, attachment_filename='wiktionary_upload_sample.json')
-    except:
-        print "Unexpected error:", sys.exc_info()[0]
-        raise
+        return send_file(app.config['SAMPLE_FILE_PATH'], as_attachment=True, attachment_filename='wiktionary_upload_sample.json')
+    except IOError, e:
+        print(e.args)
