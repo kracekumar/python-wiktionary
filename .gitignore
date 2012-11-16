@@ -25,4 +25,4 @@ dev.db
 .idea
 run/*
 logs/*
-
+wsgid.json
