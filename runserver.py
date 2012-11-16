@@ -21,7 +21,7 @@ elif app.config['ENVIRONMENT'] == u'gevent':
     port = int(os.getenv("PORT"))
     if port:
         app.config['PORT_NO'] = port
-    server = wsgi.WSGIServer((app.config['IP'], app.config['PORT_NO']), app)
+    server = wsgi.WSGIServer((app.config['IP'], app.config['PORT_NO']), app, log='debug')
     server.serve_forever()
 else:
     pass
