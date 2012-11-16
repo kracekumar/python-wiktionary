@@ -14,7 +14,7 @@ app.register_blueprint(baseframe)
 
 assets = Environment(app)
 
-js = Bundle(baseframe_js,
+#js = Bundle(baseframe_js,
     #'js/libs/bootstrap.js',
     #'js/libs/jquery-1.8.2.min.js',
     #'js/libs/toastr.js',
@@ -23,7 +23,7 @@ js = Bundle(baseframe_js,
     #'js/libs/jquery.ime.selector.js',
     #'js/libs/jquery.ime.preferences.js',
     #'js/libs/jquery.ime.inputmethods.js',
-    filters='jsmin', output='js/packed.js')
+#    filters='jsmin', output='js/packed.js')
 
 css = Bundle(baseframe_css,
     toastr_css,
@@ -35,7 +35,7 @@ css = Bundle(baseframe_css,
 
 def init():
     #configure the assests
-    assets.register('js_all', js)
+    #assets.register('js_all', js)
     assets.register('css_all', css)
 
 
