@@ -16,4 +16,4 @@ MEDIAWIKI = {
     'api': '/api.php'
     }
 #: Database backend
-SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+SQLALCHEMY_DATABASE_URI = 'postgres://aadukalam:postgres-aadukalam@78.46.204.24:5432/wikimedia'
