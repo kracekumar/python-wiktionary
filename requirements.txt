@@ -6,3 +6,4 @@ https://github.com/hasgeek/baseframe/archive/master.zip
 flask-sqlalchemy
 gevent
 psycopg2
+gunicorn
