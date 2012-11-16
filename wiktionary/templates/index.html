@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="row">
-         This Web Application provides simple form to upload wiktionary data for <a href="{{ host }}"> {{ host }} </a>
+         <p> This Web Application provides simple form to upload wiktionary data for <a href="{{ host }}"> {{ host }} </a>
+         </p>
          <br/>
+         <p> Before trying this application get a username and password from <a href="{{ host }}"> {{ host }} </a> </p>
          <ul>
             <li> <a href="{{ url_for('new') }}"> Add New Article or Word </li>
             <li> <a href="{{ url_for('download') }}"> Download a Sample JSON file for Bulk upload </li>
