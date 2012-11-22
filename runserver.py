@@ -21,12 +21,14 @@ elif app.config['ENVIRONMENT'] == u'gevent':
     ADMINS = ['kracethekingmaker@example.com']
     if not app.debug:
         import logging
-        from logging.handlers import SMTPHandler
-        mail_handler = SMTPHandler('127.0.0.1',
-                                   'me@kracekumar.com',
-                                   ADMINS, 'Wiktionary crashed')
-        mail_handler.setLevel(logging.ERROR)
-        app.logger.addHandler(mail_handler)
+        #from logging.handlers import SMTPHandler
+        #mail_handler = SMTPHandler('127.0.0.1',
+        #                           'me@kracekumar.com',
+        #                           ADMINS, 'Wiktionary crashed')
+        #mail_handler.setLevel(logging.ERROR)
+        logger = logging.getLogger('wiktionary.log')
+        logger.setLevel(logging.ERROR)
+        app.logger.addHandler(logger)
     try:
         port = int(os.getenv("PORT"))
         if port:
