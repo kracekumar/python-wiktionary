@@ -1,7 +1,8 @@
 #! -*- coding-utf-8 -*-
 
 import os
-from flask import Flask
+from flask import Flask, request, render_template
+import datetime
 from flask.ext.assets import Environment, Bundle
 from baseframe import baseframe, baseframe_css, toastr_css, baseframe_js
 
@@ -38,6 +39,15 @@ def init():
     #assets.register('js_all', js)
     assets.register('css_all', css)
 
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    r = request.url
+    now = datetime.datetime.now()
+    with open('wiktionary.log', 'a' ) as f:
+        current_timestamp = now.strftime("%d-%m-%Y %H:%M:%S")
+        f.write("\n 500 %s %s " %(current_timestamp,r))
+    return "Internal Server Error", 500
 
 import wiktionary.views
 import wiktionary.models
