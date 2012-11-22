@@ -18,6 +18,15 @@ if app.config['ENVIRONMENT'] == u'dev':
     app.run(app.config['IP'], app.config['PORT_NO'], debug=True)
 elif app.config['ENVIRONMENT'] == u'gevent':
     from gevent import wsgi
+    ADMINS = ['kracethekingmaker@example.com']
+    if not app.debug:
+        import logging
+        from logging.handlers import SMTPHandler
+        mail_handler = SMTPHandler('127.0.0.1',
+                                   'me@kracekumar.com',
+                                   ADMINS, 'Wiktionary crashed')
+        mail_handler.setLevel(logging.ERROR)
+        app.logger.addHandler(mail_handler)
     try:
         port = int(os.getenv("PORT"))
         if port:
