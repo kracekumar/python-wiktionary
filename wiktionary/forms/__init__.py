@@ -31,7 +31,6 @@ class WiktionaryInlineSectionForm(Form):
     """
     @classmethod
     def add_attr(self, name, value):
-        print self.__class__, name, value
         setattr(self.__class__, name, value)
 
 

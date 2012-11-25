@@ -71,10 +71,8 @@
         var errors = false;
         $(".field-section_title", this).each(function() {
             var input = $(this);
-            if (!$(input).hasClass('hidden') && $(input).attr('value').length < 5) {
+            if (!$(input).hasClass('hidden') && $(input).attr('value').length < 1) {
               errors = true;
-              console.log($(this));
-              console.log("text");
               $(input).append("<p class='help-error'><span>Title is mandatory</span></p>");
               $(this).closest('.control-group').addClass('error');
             } else {
