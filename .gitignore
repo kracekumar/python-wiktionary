@@ -10,7 +10,7 @@ test.db
 docs/_build
 build/
 dist/
-settings.py
+instance/settings.py
 .webassets-cache
 .sass-cache
 nosetests.xml
@@ -26,5 +26,5 @@ run/*
 logs/*
 wsgid.json
 the.db
-baseframe
+baseframe/*
 
