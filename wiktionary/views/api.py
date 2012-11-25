@@ -47,9 +47,8 @@ def login(username, password):
 def post(data):
     try:
         mw = login(session['username'], session['password'])
-        mw.post({u'action': data['action'], u'token': mw.tokens['edittoken'], u'section': u'new', u'text': data['text'],
-        u'title': data['title']})
-        return True
+        return mw.post({u'action': data['action'], u'token': mw.tokens['edittoken'], u'section': u'new', u'text': data['text'],
+        u'title': data['title'], u'createonly': True})
     except:
         flash("Failed to upload %s" % data['title'], "error")
         return False

@@ -7,7 +7,7 @@ SECRET_KEY = 'make this something random'
 #: PORT_NO
 PORT_NO = 3333
 #: ENVIRONMENT should be dev
-ENVIRONMENT = u'gevent'
+ENVIRONMENT = u'dev'
 #: IP to run
 IP = '0.0.0.0'
 #: Mediawiki settings

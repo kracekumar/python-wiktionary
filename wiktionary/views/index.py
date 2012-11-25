@@ -105,12 +105,17 @@ def new():
             text += TITLE_SEPARATOR + s_title + TITLE_SEPARATOR + LINE_SPACE + desc + LINE_SPACE
         # Post to mediawiki
         try:
-            post({u'action': u'edit', u'title': title, u'action': 'edit', u'section': u'new', u'text': text})
+            result = post({u'action': u'edit', u'title': title, u'action': 'edit', u'section': u'new', u'text': text})
         except:
             return jsonify({'msg_type': u'failure', 'msg': u'Something Went wrong'})
-        return jsonify({'url': url_for('index'),
-            'msg': u'Added page %s ' % (title),
-            'msg_type': u'success'})
+        if u'error' in result:
+            return jsonify({'url': url_for('new'),
+                'msg': result[u'error'][u'info'],
+                'msg_type': u'failure'})
+        elif u'edit' in result:
+            return jsonify({'url': url_for('index'),
+                'msg': u'Added page %s ' % (title),
+                'msg_type': u'success'})
     return render_template('new_wiktionary.html', form=form, title='Create',
         submit=u'Create', cancel_url=url_for('index'), ajax=True)
 

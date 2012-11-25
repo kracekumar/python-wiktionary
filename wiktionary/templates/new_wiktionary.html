@@ -95,7 +95,7 @@
         if (!errors) {
           $(this).ajaxSubmit({'success': function (data) {
             if (data['msg_type'] === 'failure') {
-              toastr.failure(data['msg']);
+              toastr.error(data['msg']);
             } else {
               console.log("success");
               toastr.success(data['msg']);
