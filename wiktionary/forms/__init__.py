@@ -1,7 +1,7 @@
 #! -*- coding: utf-8 -*-
 
 from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, FileField, SelectField, validators, IntegerField
-from flask.ext.wtf import Required
+from flask.ext.wtf import Required, Optional
 
 
 class LoginForm(Form):
@@ -23,6 +23,7 @@ class WiktionaryNewTemplateForm(Form):
     """ Form to submit to wikionary for creating new article """
     name = TextField("title", description="Title of the article", validators=[Required("Title is mandatory")])
     length = IntegerField(u'Total Field', validators=[Required()])
+    field_names = TextAreaField("Template title names separated by comma", validators=[Optional()])
 
 
 class WiktionaryInlineSectionForm(Form):

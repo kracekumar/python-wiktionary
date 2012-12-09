@@ -93,7 +93,10 @@ def new():
     form = WiktionaryNewForm()
     all = Template.query.all()
     if all:
-        form.template.choices = [(item.length, item.name + "-" + unicode(item.length)) for item in Template.query.all()]
+        form.template.choices, form.template.field_names = [], []
+        for item in all:
+            form.template.choices.append((item.length, item.name + "-" + unicode(item.length)))
+            form.template.field_names.append((item.name, item.field_names))
     else:
         form.template.choices = [("General - 4", 4)]
     if form.validate_on_submit():

@@ -9,6 +9,11 @@
   <button id="add-section" type="button" class="btn btn-primary">Add New section</button>
   <div id="form-container" >
     {{ renderform(form=form, formid='new-wiktionary-form',  submit=submit, cancel_url=cancel_url, multipart=False) }}
+    <form name="field-names" id="field_names">
+    {% for t in form.template.field_names %}
+        <input type="hidden" id="{{ t[0] }}" value="{{ t[1] or '' }}"></input>
+    {% endfor %}
+    </form>
   </div>
 {% endblock %}
 
@@ -34,7 +39,7 @@
             <label class='control-label' for='section_title'>Section Title <span class='help-required' title='Required'>*\
             </span></label>\
             <div class='controls'>\
-              <input  id='section_title' class='input-block-level' ng-model='article.sectionTitle' name='section_title' type='text' value=''>\
+              <input  id='section_title' class='input-block-level' name='section_title' type='text' value=''>\
               <p class='help-block'>Section Title</p>\
             </div>\
           </div>\
@@ -42,8 +47,7 @@
             <label class='control-label' for='section_content'>Section Content \
             <span class='help-required' title='Required'>*</span></label>\
           <div class='controls'>\
-            <textarea class='input-block-level' id='section_content' ng-model='article.sectionContent' \
-            name='section_content'></textarea>\
+            <textarea class='input-block-level' id='section_content' name='section_content'></textarea>\
           <p class='help-block'>Section Content</p>\
           </div>\
           <a class='close' href='#'>&times;</a>\
@@ -58,10 +62,18 @@
         toastr.success("Added 1 section");
       });
       $("#field-template").click( function () {
+        var name = $("#template option:selected").text().split('-').slice(0, -1).join('-');
+        //console.log(name);
         var val = $("#template option:selected").val();
-        for (var i =0; i < val; ++i) {
+        for (var i = 1; i < val; ++i) {
           add_section();
         }
+        var titles = $("#"+name).val().split(',');
+        //console.log(titles);
+        var items = $('input[name="section_title"]').get();
+        titles.map(function(value, index) { 
+          $(items[index]).val(value); 
+        });
         toastr.success("Added "+ val +" sections");
       });
       //client side form validation
@@ -97,7 +109,7 @@
             if (data['msg_type'] === 'failure') {
               toastr.error(data['msg']);
             } else {
-              console.log("success");
+              console.log(data);
               toastr.success(data['msg']);
               setTimeout(window.location.replace(data['url']), 5000);
             }

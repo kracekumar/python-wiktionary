@@ -12,3 +12,4 @@ class Template(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode(256), nullable=False, unique=True)
     length = db.Column(db.Integer, nullable=False, default=2)
+    field_names = db.Column(db.UnicodeText, nullable=True)
